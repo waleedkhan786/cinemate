@@ -9,10 +9,12 @@ export const Header = () => {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const queryTerm = event.target.search.value;
-    event.target.reset();
-    return navigate(`/search?q=${queryTerm}`);
+    const formData = new FormData(document.getElementById("searchForm"));
+    const queryTerm = formData.get("search");
+    navigate(`/search?q=${queryTerm}`);
   };
+  
+  
 
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
@@ -90,8 +92,9 @@ export const Header = () => {
               )}
             </button>
 
-            <button
+            <button onClick={handleSubmit}
               type="button"
+              name="search"
               data-collapse-toggle="navbar-search"
               aria-controls="navbar-search"
               aria-expanded="false"
@@ -195,7 +198,7 @@ export const Header = () => {
                   />
                 </svg>
               </div>
-              <form onSubmit={handleSubmit}>
+              <form id="searchForm" onSubmit={handleSubmit}>
                 <input
                   type="text"
                   id="search-navbar"
